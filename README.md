@@ -6,7 +6,7 @@ Proyek ini bertujuan untuk membangun sistem e-commerce.
 🏅 Annysa Aprilya  
 🏅 Aulia Sihelau  
 🏅 Ghani Kamil  
-🏅 Hafidz Daffa S.  
+🏅 Hafizh Daffa Septianto  
 
 ---
 
