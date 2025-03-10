@@ -12,17 +12,17 @@ const CreateCategory = () => {
   const navigate = useNavigate(); // Hook untuk navigasi
   const storedUser = localStorage.getItem("user");
   const datauser = JSON.parse(storedUser);
-
+  console.log(datauser.id);
   const handleSubmit = (event) => {
     event.preventDefault();
     try {
       axios.post(`http://localhost:3003/categories`, {
         // categoryId: parseInt(formData.categoryId), // Pastikan categoryId adalah number
         name: formData.name,
-        userId: datauser.userId,
+        userId: datauser.id,
       });
       toast.success(`Data Berhasil ditambahkan`);
-      navigate("/admincategory"); // Pindah ke halaman Admin setelah submit berhasil
+      // navigate("/admincategory"); // Pindah ke halaman Admin setelah submit berhasil
     } catch (error) {
       console.log(error);
       toast.error(`Gagal menambahkan data`);

@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Layout from "../components/Layout";
 
 const AddProduct = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }, []);
+
+  
+
   const [product, setProduct] = useState({
     //auto increment productId
     name: "",
@@ -32,16 +41,17 @@ const AddProduct = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     try {
+      console.log("Useridnya" + datauser.userId);
       axios.post("http://localhost:3003/products", {
         name: product.name,
         price: product.price,
         categoryId: product.categoryId,
         image: product.image,
-        userId: datauser.userId,
+        userId: datauser.id,
         description: product.description,
         stock: product.stock,
       });
-      navigate("/");
+      // navigate("/");
       toast.success("Product added successfully!");
     } catch (error) {
       console.log(error);

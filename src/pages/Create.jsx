@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router"; // Import useNavigate dari react-router-dom
+import { Link, useNavigate } from "react-router";
 import toast, { Toaster } from "react-hot-toast";
 import Layout from "../components/Layout";
 
 const Create = () => {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     price: "",
     categoryId: "",
@@ -13,7 +13,10 @@ const Create = () => {
     description: "",
     stock: "",
   });
-  const navigate = useNavigate(); // Hook untuk navigasi
+
+  const [categories, setCategories] = useState([]); 
+
+  const navigate = useNavigate();
   const storedUser = localStorage.getItem("user");
   const datauser = JSON.parse(storedUser);
 
@@ -22,20 +25,34 @@ const Create = () => {
     try {
       axios.post(`http://localhost:3003/products`, {
         name: formData.name,
-        price: parseFloat(formData.price), // Pastikan price adalah number
-        categoryId: parseInt(formData.categoryId), // Pastikan categoryId adalah number
-        userId: datauser.userId,
+        price: parseFloat(formData.price), 
+        categoryId: parseInt(formData.categoryId), 
+        userId: datauser.id,
         image: formData.image,
         description: formData.description,
-        stock: parseInt(formData.stock), // Pastikan stock adalah number
+        stock: parseInt(formData.stock), 
       });
       toast.success(`Data Berhasil ditambahkan`);
-      navigate("/admin"); // Pindah ke halaman Admin setelah submit berhasil
+      navigate("/admin");
     } catch (error) {
       console.log(error);
       toast.error(`Gagal menambahkan data`);
     }
   };
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3003/categories`);
+      console.log(response.data);
+      setCategories(response.data); 
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(); 
+  }, []); 
 
   return (
     <div>
@@ -102,8 +119,12 @@ const Create = () => {
                       });
                     }}
                   >
-                    <option value="1">T-Shirts</option>
-                    <option value="2">Jeans</option>
+                    <option value="">Pilih Kategori</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -177,6 +198,7 @@ const Create = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

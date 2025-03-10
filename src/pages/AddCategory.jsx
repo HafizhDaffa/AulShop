@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Layout from "../components/Layout";
 
 const AddCategory = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      axios.defaults.headers["Authorization"] = `Bearer ${token}`;
+    }
+  }, []);
+
   const [category, setCategory] = useState({
     //auto increment categoryId
     name: "",
@@ -25,7 +32,7 @@ const AddCategory = () => {
   class NewCategory {
     constructor(name, userId) {
       this.name = name;
-      this.userId = userId;
+      this.userId = 4;
     }
   }
 
@@ -34,9 +41,13 @@ const AddCategory = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      console.log("idnya" + datauser.userId);
       const newCategory = new NewCategory(category.name, datauser.userId);
-      await axios.post("http://localhost:3003/categories", newCategory);
-      navigate("/");
+      await axios.post("http://localhost:3003/categories", {
+        name: category.name,
+        userId: datauser.id,
+      });
+      // navigate("/");
       toast.success("Category added successfully!");
     } catch (error) {
       console.log(error);
