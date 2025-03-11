@@ -32,6 +32,7 @@ Pada sistem ini, terdapat tiga mode akses, yaitu **Pengunjung**, **User**, dan *
 
 ### 2️⃣ Pembuatan Akun Customer
 Sistem ini memungkinkan pelanggan untuk membuat akun. Untuk mendaftar, pelanggan wajib mengisi informasi berikut:
+
 🔹 **Email** (Alamat email yang valid)  
 🔹 **Password** (Kata sandi untuk keamanan akun)  
 🔹 **Konfirmasi Password** (Harus sesuai dengan password yang dimasukkan)  
